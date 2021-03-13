@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import initialData from './initialData';
-
+import Column from './column';
 class App extends React.Component {
   state = initialData;
 
