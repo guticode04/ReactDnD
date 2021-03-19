@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '@atlaskit/css-reset';
 import initialData from './initialData';
 import Column from './column';
 class App extends React.Component {
