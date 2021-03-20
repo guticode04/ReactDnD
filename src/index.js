@@ -24,8 +24,8 @@ class App extends React.Component {
   // }
 
   onDragEnd = result => {
-    const { source, destination, draggableId } = result;
-
+    const { destination, source, draggableId } = result;
+    // console.log("inside drag end");
     if ( !destination ) return;
 
     if ( 
@@ -33,13 +33,31 @@ class App extends React.Component {
       destination.index === source.index
     ) return;
 
-    
-  }
+    const column = this.state.columns[source.droppableId];
+    const newTaskIds = Array.from(column.taskIds);
+    newTaskIds.splice(source.index, 1);
+    newTaskIds.splice(destination.index, 0, draggableId);
+
+    const newColumn = {
+      ...column,
+      taskIds: newTaskIds,
+    };
+
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        [newColumn.id]: newColumn,
+      },
+    };
+
+    this.setState(newState);
+  };
 
   render() {
     return (
       <DragDropContext
-        onDragEnd={this.props.onDragEnd}
+        onDragEnd={this.onDragEnd}
       >
         {
           this.state.columnOrder.map(columnId => {
