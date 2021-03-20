@@ -7,9 +7,15 @@ import Column from './column';
 class App extends React.Component {
   state = initialData;
 
+  onDragEnd = result => {
+    
+  }
+
   render() {
     return (
-      <DragDropContext>
+      <DragDropContext
+        onDragEnd={this.props.onDragEnd}
+      >
         {
           this.state.columnOrder.map(columnId => {
             const column = this.state.columns[columnId];
