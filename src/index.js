@@ -7,7 +7,32 @@ import Column from './column';
 class App extends React.Component {
   state = initialData;
 
+  // Example of result object
+  // const result = {
+  //   draggableId: 'task-1',
+  //   type: 'TYPE',
+  //   reason: 'DROP',
+  //   source: {
+  //     droppableId: 'column-1',
+  //     index: 0,
+  //   },
+  //   NOTE: there are cases where destination: null
+  //   destination: {
+  //     droppableId: 'column-1',
+  //     index: 1,
+  //   },
+  // }
+
   onDragEnd = result => {
+    const { source, destination, draggableId } = result;
+
+    if ( !destination ) return;
+
+    if ( 
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) return;
+
     
   }
 
