@@ -4,26 +4,73 @@ import '@atlaskit/css-reset';
 import { DragDropContext } from 'react-beautiful-dnd';
 import initialData from './initialData';
 import Column from './column';
+
+/* Example of result object
+  const result = {
+    draggableId: 'task-1',
+    type: 'TYPE',
+    reason: 'DROP',
+    source: {
+      droppableId: 'column-1',
+      index: 0,
+    },
+    NOTE: there are cases where destination: null
+    destination: {
+      droppableId: 'column-1',
+      index: 1,
+    },
+  }
+*/
+
+/* 
+  Example data
+  
+  onDragStart
+  const start = {
+    draggableId: 'task-1',
+    type: 'TYPE',
+    source: {
+      droppableId: 'column-1',
+      index: 0,
+    },
+  };
+
+  onDragUpdate
+  const update = {
+    ...start,
+    destination: {
+      droppableId: 'column-1',
+      index: 1,
+    },
+  };
+
+  onDragEnd
+  const result = {
+    ...update,
+    reason: 'DROP',
+  };
+*/
 class App extends React.Component {
   state = initialData;
 
-  // Example of result object
-  // const result = {
-  //   draggableId: 'task-1',
-  //   type: 'TYPE',
-  //   reason: 'DROP',
-  //   source: {
-  //     droppableId: 'column-1',
-  //     index: 0,
-  //   },
-  //   NOTE: there are cases where destination: null
-  //   destination: {
-  //     droppableId: 'column-1',
-  //     index: 1,
-  //   },
-  // }
+  onDragStart = () => {
+    document.body.style.color = 'yellow';
+    document.body.style.transition = 'background-color 0.2s ease';
+  };
+
+  onDragUpdate = update => {
+    const {destination} = update;
+    const opacity = destination
+      ? destination.index / Object.keys(this.state.tasks).length
+      : 0;
+    document.body.style.backgroundColor = `rgba(153,141,217, ${opacity})`;
+  };
 
   onDragEnd = result => {
+
+    document.body.style.color = 'inherit';
+    document.body.style.backgroundColor = 'inherit';
+
     const { destination, source, draggableId } = result;
     // console.log("inside drag end");
     if ( !destination ) return;
@@ -57,6 +104,8 @@ class App extends React.Component {
   render() {
     return (
       <DragDropContext
+        onDragStart={this.onDragStart}
+        onDragUpdate={this.onDragUpdate}
         onDragEnd={this.onDragEnd}
       >
         {
