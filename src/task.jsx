@@ -8,9 +8,18 @@ const Container = styled.div`
    padding: 10px;
    margin-bottom: 10px;
    background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
+   display: flex;
 `;
 
-// Draggable
+const Handle = styled.div`
+   width: 20px;
+   height: 20px;
+   background-color: yellow;
+   border-radius: 4px;
+   margin-right: 10px;
+`;
+
+// Draggable Object Example
 // const draggableSnapshot = {
 //    isDragging: true,
 //    draggingOver: 'column-1',
@@ -23,10 +32,11 @@ export default class Task extends React.Component {
             { (provided, snapshot) => (
                <Container
                   {...provided.draggableProps}
-                  {...provided.dragHandleProps}
+                  // {...provided.dragHandleProps}
                   ref={provided.innerRef}
                   isDragging={snapshot.isDragging}
-               >
+                  >
+                  <Handle {...provided.dragHandleProps}/>
                   {this.props.task.content}
                </Container>
             )}
