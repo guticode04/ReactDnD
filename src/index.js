@@ -86,25 +86,42 @@ class App extends React.Component {
       destination.index === source.index
     ) return;
 
-    const column = this.state.columns[source.droppableId];
-    const newTaskIds = Array.from(column.taskIds);
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
+    // const column = this.state.columns[source.droppableId];
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
 
-    const newColumn = {
-      ...column,
-      taskIds: newTaskIds,
-    };
+    if ( start = finish ) {
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+  
+      const newColumn = {
+        ...start,
+        taskIds: newTaskIds,
+      };
+  
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+  
+      this.setState(newState);
+      return;
+    }
 
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newColumn.id]: newColumn,
-      },
-    };
+    //Moving from one list to another
+    const startTaskIds = Array.from(start.taskIds);
+    startTaskIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds,
+    }
 
-    this.setState(newState);
+    const finishTaskIds = Array.from(finish.taskIds);
+
   };
 
   render() {
