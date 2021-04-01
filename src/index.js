@@ -156,11 +156,13 @@ class App extends React.Component {
                 {...provided.droppableProps}
               >
                 {
-                  this.state.columnOrder.map(columnId => {
+                  this.state.columnOrder.map( (columnId, index) => {
                     const column = this.state.columns[columnId];
                     const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
               
-                    return <Column key={column.id} column={column} tasks={tasks} />;
+                    return (
+                      <Column key={column.id} column={column} tasks={tasks} index={index}/>
+                    )
                   })
                 }
                 {provided.placeholder}
