@@ -77,7 +77,7 @@ class App extends React.Component {
     // document.body.style.color = 'inherit';
     // document.body.style.backgroundColor = 'inherit';
 
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
     // console.log("inside drag end");
     if ( !destination ) return;
 
@@ -85,6 +85,21 @@ class App extends React.Component {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) return;
+
+    if (type === 'column') {
+      const newColumnOrder = Array.from(this.state.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      const newState = {
+        ...this.state,
+        columnOrder: newColumnOrder,
+      };
+
+      this.setState(newState);
+      return;
+
+    }
 
     // const column = this.state.columns[source.droppableId];
     const startCol = this.state.columns[source.droppableId];

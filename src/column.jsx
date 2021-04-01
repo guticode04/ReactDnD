@@ -10,6 +10,7 @@ const Container = styled.div`
    width: 240px;
    display: flex;
    flex-direction: column;
+   background-color: white;
 `;
 const Title = styled.h3`
    padding: 10px;
@@ -19,7 +20,7 @@ const TaskList = styled.div`
    transition: background-color 0.2s ease;
    flex-grow: 1;
    min-height: 100px;
-   background-color: ${props => (props.isDraggingOver ? 'red' : 'white')}
+   background-color: ${props => (props.isDraggingOver ? 'red' : 'inherit')}
 `;
 
 // Droppable Snapshot example
@@ -44,7 +45,7 @@ export default class Column extends React.Component {
                   <Title {...provided.dragHandleProps}>
                      {this.props.column.title}
                   </Title>
-                  <Droppable droppableId={this.props.column.id}>
+                  <Droppable droppableId={this.props.column.id} type="task">
                      { (provided, snapshot) => (
                         <TaskList
                            ref={provided.innerRef}
