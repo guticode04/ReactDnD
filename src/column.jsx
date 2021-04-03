@@ -20,7 +20,7 @@ const TaskList = styled.div`
    transition: background-color 0.2s ease;
    flex-grow: 1;
    min-height: 100px;
-   background-color: ${props => (props.isDraggingOver ? 'red' : 'inherit')}
+   background-color: ${props => (props.isDraggingOver ? 'lightgrey' : 'inherit')}
 `;
 
 // Droppable Snapshot example
@@ -28,6 +28,20 @@ const TaskList = styled.div`
 //    isDraggingOver: true,
 //    draggingOverWith: 'task-1',
 // }
+
+class InnerList extends React.Component {
+   shouldComponentUpdate(nextProps) {
+      if ( nextProps.tasks === this.props.tasks ) {
+         return false;
+      }
+      return true;
+   }
+   render() {
+      return this.props.tasks.map((task, index) => (
+         <Task key={task.id} task={task} index={index} />
+      ))
+   }
+}
 
 export default class Column extends React.Component {
    render() {
@@ -52,7 +66,7 @@ export default class Column extends React.Component {
                            {...provided.droppableProps}
                            isDraggingOver={snapshot.isDraggingOver}
                         >
-                           {this.props.tasks.map( (task, index) => <Task key={task.id} task={task} index={index}/>)}
+                           <InnerList tasks={this.props.tasks} />
                            {provided.placeholder}
                         </TaskList>
                      )}
